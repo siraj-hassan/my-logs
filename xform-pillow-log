@@ -1,0 +1,78 @@
+2025-04-03 10:59:20,753 ERROR interface [xform-pillow] Error on change: 0c59093b-85ff-4452-8ef7-09bcf917fbb7, column users_sqluserdata.deleted_on does not exist
+LINE 1: ...ango_user_id", "users_sqluserdata"."modified_on", "users_sql...
+                                                             ^
+NoneType: None
+2025-04-03 10:59:20,753 ERROR [notify] Notify Exception: Unexpected error in pillow
+Traceback (most recent call last):
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+psycopg2.errors.UndefinedColumn: column users_sqluserdata.deleted_on does not exist
+LINE 1: ...ango_user_id", "users_sqluserdata"."modified_on", "users_sql...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/pillow.py", line 463, in _process_chunk_for_domain
+    rows_to_save_by_adapter[adapter].extend(adapter.get_all_values(doc, eval_context))
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/adapter.py", line 93, in get_all_values
+    return self.config.get_all_values(doc, eval_context)
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/models.py", line 598, in get_all_values
+    values = self.indicators.get_values(item, eval_context)
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/indicators/__init__.py", line 119, in get_values
+    return [val for ind in self.indicators for val in ind.get_values(item, evaluation_context)]
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/indicators/__init__.py", line 119, in <listcomp>
+    return [val for ind in self.indicators for val in ind.get_values(item, evaluation_context)]
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/indicators/__init__.py", line 103, in get_values
+    return [ColumnValue(self.column, self.getter(item, evaluation_context))]
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/expressions/getters.py", line 26, in __call__
+    extracted = self.getter(item, evaluation_context)
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/expressions/specs.py", line 603, in __call__
+    doc_id = self._doc_id_expression(item, evaluation_context)
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/expressions/specs.py", line 326, in __call__
+    array_value = self._array_expression(item, evaluation_context)
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/expressions/specs.py", line 603, in __call__
+    doc_id = self._doc_id_expression(item, evaluation_context)
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/expressions/specs.py", line 605, in __call__
+    return self.get_value(doc_id, evaluation_context)
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/expressions/specs.py", line 626, in get_value
+    doc = self._get_document(self.related_doc_type, doc_id, evaluation_context)
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/decorators.py", line 55, in _inner
+    res = fn(*args, **kwargs)
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/expressions/specs.py", line 623, in _get_document
+    return func(doc_id)
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/userreports/expressions/specs.py", line 710, in _get_user
+    doc['user_data'] = user.get_user_data(domain).to_dict()
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/users/models.py", line 1150, in get_user_data
+    self._user_data_accessors[domain] = UserData.for_user(self, domain)
+  File "/home/cchq/www/echis/releases/2025-03-27_00.18/corehq/apps/users/user_data.py", line 30, in for_user
+    sql_data = SQLUserData.objects.get(
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/django/db/models/query.py", line 633, in get
+    num = len(clone)
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/django/db/models/query.py", line 380, in __len__
+    self._fetch_all()
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/django/db/models/query.py", line 1881, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/django/db/models/query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/django/db/models/sql/compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/sentry_sdk/utils.py", line 1713, in runner
+    return sentry_patched_function(*args, **kwargs)
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/sentry_sdk/integrations/django/__init__.py", line 650, in execute
+    result = real_execute(self, sql, params)
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/cchq/www/echis/current/python_env/lib/python3.9/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+django.db.utils.ProgrammingError: column users_sqluserdata.deleted_on does not exist
+LINE 1: ...ango_user_id", "users_sqluserdata"."modified_on", "users_sql...
